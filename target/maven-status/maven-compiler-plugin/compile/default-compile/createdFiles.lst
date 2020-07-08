@@ -1,0 +1,10 @@
+com\backend\repository\JDBCPeopleMapper.class
+com\backend\services\PeopleHandlingService.class
+com\backend\request\PeopleRequest.class
+com\backend\response\PeopleResponse.class
+com\backend\services\PeopleHandlingServiceImpl.class
+com\example\BasicApplication.class
+com\backend\repository\PeopleMapper.class
+com\backend\controller\PeopleHandlingController.class
+com\backend\domain\People.class
+com\backend\domain\RespondStatus.class
