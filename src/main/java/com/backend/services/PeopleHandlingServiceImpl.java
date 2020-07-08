@@ -27,6 +27,13 @@ public class PeopleHandlingServiceImpl implements PeopleHandlingService
         this.mapper = mapper;
     }
     
+    /**
+     * method to add new people
+     * to dataBase an return error if exist
+     * or OK if does not exist
+     * @param peopleRequest
+     * @return insert status (OK or NOK)
+    */
     @Override
     public RespondStatus addNewPeople(PeopleRequest peopleRequest)
     {
@@ -46,11 +53,22 @@ public class PeopleHandlingServiceImpl implements PeopleHandlingService
         catch(DataAccessException e)
         {
             respond.setStatusCode(402);
-            respond.setStatusMessage(e.getMessage());
+            respond.setStatusMessage("DataAccessException: " + e.getMessage());
+        } 
+        catch(Exception e)
+        {
+            respond.setStatusCode(403);
+            respond.setStatusMessage("Exception: " +e.getMessage());
         }
         return respond;
     }
     
+    /**
+     * Method in charge of extracting 
+     * all of register saved on PEOPLE
+     * table
+     * @return list with all results
+    */
     @Override
     public PeopleResponse listPeople()
     {
@@ -62,27 +80,75 @@ public class PeopleHandlingServiceImpl implements PeopleHandlingService
         catch(DataAccessException e)
         {
             peopleResponse.setPeople(null);
-            peopleResponse.setRespondStatus(new RespondStatus(402, e.getMessage()));
-        }        
+            peopleResponse.setRespondStatus(new RespondStatus(402, "DataAccessException: " + e.getMessage()));
+        }    
+        catch(Exception e)
+        {
+            peopleResponse.setPeople(null);
+            peopleResponse.setRespondStatus(new RespondStatus(403, "Exception: " + e.getMessage()));
+        }
         return peopleResponse;
     }
     
+    /**
+     * Method in charge of delete 
+     * one register on PEOPLE
+     * table
+     * @param rut
+     * @return delete status (OK or NOK)
+    */
     @Override
     public RespondStatus deletePeople(String rut)
     {        
-        System.out.println("llega con el rut: " + rut);
         RespondStatus respond = new RespondStatus();
-        respond.setStatusCode(200);
-        respond.setStatusMessage("Correcto");
+        try
+        {
+            respond = mapper.delete(rut);
+        }
+        catch(DataAccessException e)
+        {
+            respond.setStatusCode(402);
+            respond.setStatusMessage("DataAccessException: " + e.getMessage());
+        }
+        catch(Exception e)
+        {
+            respond.setStatusCode(403);
+            respond.setStatusMessage("Exception: " + e.getMessage());
+        }
         return respond;
     }
     
+    /**
+     * Method in charge of edit 
+     * one register on PEOPLE
+     * table
+     * @param PeopleRequest
+     * @return update status (OK or NOK)
+    */
     @Override
     public RespondStatus editPeople(PeopleRequest request)
     {
-        RespondStatus respond = new RespondStatus();
-        respond.setStatusCode(200);
-        respond.setStatusMessage("Correcto");
-        return respond;
+        RespondStatus response = new RespondStatus();
+        try
+        {
+            People people = new People();
+            people.setAdress(request.getAdress());
+            people.setAge(request.getAge());
+            people.setLastName(request.getLastName());
+            people.setRut(request.getRut());
+            people.setName(request.getName());
+            response = mapper.update(people);
+        }
+        catch(DataAccessException e)
+        {
+            response.setStatusCode(402);
+            response.setStatusMessage("DataAccessException: " + e.getMessage());            
+        }
+        catch(Exception e)
+        {
+            response.setStatusCode(403);
+            response.setStatusMessage("Exception: " + e.getMessage());
+        }
+        return response;
     }
 }

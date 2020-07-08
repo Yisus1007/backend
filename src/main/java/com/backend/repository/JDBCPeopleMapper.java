@@ -28,6 +28,8 @@ public class JDBCPeopleMapper implements PeopleMapper
 {
     static final String insertQuery = "insert into PEOPLE (rut,first_name,last_name,age,adress) values(?,?,?,?,?)";
     static final String findAllQuery = "SELECT ID,RUT,FIRST_NAME,LAST_NAME,AGE,ADRESS FROM PEOPLE";
+    static final String deleteQuery = "DELETE FROM PEOPLE WHERE RUT = ?";
+    static final String updateQuery = "UPDATE PEOPLE SET FIRST_NAME = ?, LAST_NAME = ?, AGE = ?, ADRESS = ? WHERE RUT = ?";
     private final JdbcTemplate template;
     
     @Autowired
@@ -40,7 +42,6 @@ public class JDBCPeopleMapper implements PeopleMapper
     @Transactional
     public void save(People people) throws DataAccessException
     {
-        System.out.println("Entro al save con: " + people.toString());
         try
         {
             template.update(insertQuery, 
@@ -49,7 +50,6 @@ public class JDBCPeopleMapper implements PeopleMapper
                             people.getLastName(),
                             people.getAge(),
                             people.getAdress());
-            System.out.println("hizo el insert");
         }
         catch(DataAccessException e)
         {
@@ -76,7 +76,7 @@ public class JDBCPeopleMapper implements PeopleMapper
                             )
             );
             respondStatus.setStatusCode(200);
-            respondStatus.setStatusMessage("Registros devueltos: " + listPeople.size());
+            respondStatus.setStatusMessage("Return with: " + listPeople.size() + " register");
             response.setPeople(listPeople);
             response.setRespondStatus(respondStatus);
         }
@@ -88,5 +88,46 @@ public class JDBCPeopleMapper implements PeopleMapper
             response.setRespondStatus(respondStatus);
         }
         return response;                
+    }
+    
+    @Override
+    public RespondStatus delete(String rut) throws DataAccessException
+    {
+        RespondStatus respondStatus = new RespondStatus();
+        try
+        {
+            template.update(deleteQuery,rut);
+            respondStatus.setStatusCode(200);
+            respondStatus.setStatusMessage("Deleted register");
+        }
+        catch(DataAccessException e)
+        {
+            respondStatus.setStatusCode(402);
+            respondStatus.setStatusMessage(e.getMessage());
+        }
+        return respondStatus;
+    }
+    
+    @Override
+    public RespondStatus update(People people) throws DataAccessException
+    {
+        RespondStatus respondStatus = new RespondStatus();
+        try
+        {
+            template.update(updateQuery,people.getName(),
+                                        people.getLastName(),
+                                        people.getAge(),
+                                        people.getAdress(),
+                                        people.getRut());
+            respondStatus.setStatusCode(200);
+            respondStatus.setStatusMessage("Updated register");
+        }
+        catch(DataAccessException e)
+        {
+            respondStatus.setStatusCode(403);
+            respondStatus.setStatusMessage(e.getMessage());
+        }
+        return respondStatus;
+        
     }
 }
