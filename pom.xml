@@ -104,6 +104,11 @@
                 <version>1</version>
               </configuration>
             </plugin>
+            <plugin>
+               <groupId>com.google.appengine</groupId>
+               <artifactId>appengine-maven-plugin</artifactId>
+               <version>1.9.80</version>
+            </plugin>
         </plugins>
     </build>
 
