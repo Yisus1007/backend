@@ -18,4 +18,8 @@ public interface PeopleMapper
     public void save(People people) throws DataAccessException;
     
     public PeopleResponse findAll() throws DataAccessException;
+    
+    public RespondStatus delete(String rut) throws DataAccessException;
+    
+    public RespondStatus update(People people) throws DataAccessException;
 }
