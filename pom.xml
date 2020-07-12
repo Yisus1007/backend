@@ -6,7 +6,7 @@
     <groupId>com.backend.main</groupId>
     <artifactId>basic</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>BackEnd</name>
     <description>Basic project for Spring Boot</description>
@@ -93,30 +93,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                </configuration>
-            </plugin>
-            
-            <plugin>
-              <groupId>com.google.cloud.tools</groupId>
-              <artifactId>appengine-maven-plugin</artifactId>
-              <version>2.3.0</version>
-               <configuration>
-                <deploy.projectId>backend-282717</deploy.projectId>
-                <deploy.version>0.0.1</deploy.version>
-               </configuration>
-            </plugin>
-            <plugin>
-              <groupId>org.eclipse.jetty</groupId>
-              <artifactId>jetty-maven-plugin</artifactId>
-              <version>9.4.30.v20200611</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <debug>true</debug>
-                    <showDeprecation>false</showDeprecation>
                 </configuration>
             </plugin>
         </plugins>

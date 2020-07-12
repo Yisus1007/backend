@@ -7,16 +7,17 @@ import com.backend.response.PeopleResponse;
 import com.backend.services.PeopleHandlingService;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author jesus.a.castellanos
- * Class containing all rest 
+ * Class containing all rest
  * controller
  * @rest addPeople
  * @rest listPeople
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @rest deletePeople
  */
 @RestController
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 public class PeopleHandlingController 
 {
     @Autowired
@@ -49,7 +51,6 @@ public class PeopleHandlingController
     * listPeople
     * return list of people added
     * an status of process
-    * @Param: 
     */
     @GetMapping("/list-people")
     public PeopleResponse listPeople()
@@ -61,7 +62,7 @@ public class PeopleHandlingController
     /*
     * deletePeople
     * Delete a selected person
-    * @Param: 
+    * @Param: rut via URL
     */
     @GetMapping("/delete-people")
     public RespondStatus deletePeople(@RequestParam String rut)
@@ -70,7 +71,11 @@ public class PeopleHandlingController
         System.out.println("Return with: " + respond);
         return respond;
     }
-    
+    /*
+    * deletePeople
+    * Edit a people selected in front end
+    * @Param: PeopleRequest
+    */    
     @PostMapping("/edit-people")
     public RespondStatus editPeople(@RequestBody PeopleRequest peopleRequest)
     {
